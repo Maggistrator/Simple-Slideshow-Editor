@@ -3,9 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Сова/Desktop/Новая%20папка/Owl's%20Slideshow%20Editor/src/Slide.java</file>
-            <file>file:/C:/Users/Сова/Desktop/Новая%20папка/Owl's%20Slideshow%20Editor/src/Launcher.java</file>
-            <file>file:/C:/Users/Сова/Desktop/Новая%20папка/Owl's%20Slideshow%20Editor/src/UI.java</file>
+            <file>file:/C:/Users/Сова/Desktop/нoвая%20папка/Simple-Slideshow-Editor/src/logic/Slide.java</file>
+            <file>file:/C:/Users/Сова/Desktop/нoвая%20папка/Simple-Slideshow-Editor/src/logic/Slideshow.java</file>
+            <file>file:/C:/Users/Сова/Desktop/нoвая%20папка/Simple-Slideshow-Editor/src/ui/SlideUI.java</file>
+            <file>file:/C:/Users/Сова/Desktop/нoвая%20папка/Simple-Slideshow-Editor/src/ui/MainGUI.java</file>
+            <file>file:/C:/Users/Сова/Desktop/нoвая%20папка/Simple-Slideshow-Editor/src/logic/Launcher.java</file>
         </group>
     </open-files>
 </project-private>

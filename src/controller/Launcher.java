@@ -1,8 +1,13 @@
+package controller;
+
+
+import view.MainGUI;
+
 
 public class Launcher {
 
 	public static void main(String[] args) {
-            UI ui = new UI();
+            MainGUI ui = new MainGUI();
             ui.setVisible(true);
 	}
 }
