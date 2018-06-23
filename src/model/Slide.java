@@ -1,6 +1,5 @@
 package model;
 
-import model.XMLTranslatable;
 import java.util.HashMap;
 import javax.swing.ImageIcon;
 import org.w3c.dom.Document;

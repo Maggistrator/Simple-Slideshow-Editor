@@ -4,10 +4,8 @@ package view;
 import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import model.Slide;
-import model.Slideshow;
 
 /**
  * @author Сова
@@ -15,14 +13,14 @@ import model.Slideshow;
 public class SlideUI extends javax.swing.JFrame {
 
     private Slide slide;
-    JLabel pic;
     File chosenImage = null;
-    Slideshow slideshow;
+    MainGUI parent;
     
-    public SlideUI(JLabel pic, Slideshow slideshow) {
-        this.pic = pic;
-        this.slideshow = slideshow;
+    public SlideUI(MainGUI parent) {
+        this.parent = parent;
         initComponents();
+        setAlwaysOnTop(true);
+        setResizable(false);
         setLocationRelativeTo(null);
     }
 
@@ -105,35 +103,33 @@ public class SlideUI extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(1, 1, 1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(srcFieldLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(srcFolderField, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(imgFieldLabel)
+                                .addGap(18, 18, 18)
+                                .addComponent(imgPathField, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(chooseImageButton)
+                            .addComponent(dummyfield, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(slideNameFieldLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(slideFieldLabel))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(approveFileButton)
-                        .addGap(11, 11, 11)
-                        .addComponent(cancelButton))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(imgFieldLabel)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(imgPathField, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(srcFieldLabel)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(srcFolderField)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(chooseImageButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(dummyfield, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addComponent(isAnimation))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(20, 20, 20)
+                        .addComponent(slideFieldLabel)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(isAnimation)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(approveFileButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cancelButton)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -153,13 +149,17 @@ public class SlideUI extends javax.swing.JFrame {
                     .addComponent(srcFieldLabel)
                     .addComponent(srcFolderField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(dummyfield))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(isAnimation)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(approveFileButton)
-                    .addComponent(cancelButton))
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(isAnimation)
+                        .addContainerGap(28, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(approveFileButton)
+                            .addComponent(cancelButton))
+                        .addContainerGap())))
         );
 
         pack();
@@ -168,12 +168,12 @@ public class SlideUI extends javax.swing.JFrame {
     private void chooseImageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chooseImageButtonActionPerformed
         JFileChooser fc = new JFileChooser();
         int result = fc.showOpenDialog(this);
-        if(result == JFileChooser.APPROVE_OPTION){
+        if (result == JFileChooser.APPROVE_OPTION) {
             chosenImage = fc.getSelectedFile();
             imgPathField.setText(chosenImage.getPath());
+            dummyfield.setText("/" + chosenImage.getName());
+            this.repaint();
         }
-        dummyfield.setText("/"+chosenImage.getName());
-        this.repaint();
     }//GEN-LAST:event_chooseImageButtonActionPerformed
 
     private void approveFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_approveFileButtonActionPerformed
@@ -182,8 +182,7 @@ public class SlideUI extends javax.swing.JFrame {
             //расширение входит в имя
             //TODO: создать фильтры FileChooser для того, чтобы нельзя было выбрать не-картинку           
             slide = new Slide(srcFolderField.getText()+"/"+filename, ico);
-            pic.setIcon(ico);
-            slideshow.addSlide(slide);
+            parent.processNewSlide(slide);
             this.dispose();
     }//GEN-LAST:event_approveFileButtonActionPerformed
 

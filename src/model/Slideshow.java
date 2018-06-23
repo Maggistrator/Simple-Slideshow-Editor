@@ -1,8 +1,6 @@
 package model;
 
 import java.util.ArrayList;
-import model.XMLTranslatable;
-import java.util.HashMap;
 import org.w3c.dom.Document;
 
 /**
