@@ -2,6 +2,7 @@ package model;
 
 import model.XMLTranslatable;
 import java.util.HashMap;
+import javax.swing.ImageIcon;
 import org.w3c.dom.Document;
 
 /** 
@@ -18,6 +19,7 @@ public class Slide implements XMLTranslatable{
 	public int lifetime = 0;
         public String name = "New Slide";
 	public String image; 
+        public ImageIcon ico;
         
         //служебные переменные, для вычисления длинны звуковой дорожки слайда, и субтитров
         private int text_lifetime = 0;
@@ -28,9 +30,11 @@ public class Slide implements XMLTranslatable{
 	private HashMap<Integer, String> replicas = new HashMap<>();
 
 	private Slide(){} //закрываем конструктор по-умолчанию
+        //TODO: нужен конструктор принимающий на вход Animation
         
-	public Slide(String image) {
-		this.image = image;
+	public Slide(String image, ImageIcon ico) {
+            this.image = image;
+            this.ico = ico;
 	}
 
     /**

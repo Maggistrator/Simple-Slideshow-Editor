@@ -2,18 +2,26 @@ package view;
 
 
 import java.io.File;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import model.Slide;
+import model.Slideshow;
 
 /**
  * @author Сова
  */
 public class SlideUI extends javax.swing.JFrame {
 
-    Slide slide;
+    private Slide slide;
+    JLabel pic;
+    File chosenImage = null;
+    Slideshow slideshow;
     
-    public SlideUI(JLabel pic) {
+    public SlideUI(JLabel pic, Slideshow slideshow) {
+        this.pic = pic;
+        this.slideshow = slideshow;
         initComponents();
         setLocationRelativeTo(null);
     }
@@ -27,11 +35,12 @@ public class SlideUI extends javax.swing.JFrame {
         slideFieldLabel = new javax.swing.JTextField();
         slideNameFieldLabel = new javax.swing.JLabel();
         imgFieldLabel = new javax.swing.JLabel();
-        addButton = new javax.swing.JButton();
+        approveFileButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
         srcFieldLabel = new javax.swing.JLabel();
         srcFolderField = new javax.swing.JTextField();
         dummyfield = new javax.swing.JLabel();
+        isAnimation = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -58,14 +67,19 @@ public class SlideUI extends javax.swing.JFrame {
         imgFieldLabel.setForeground(new java.awt.Color(102, 102, 102));
         imgFieldLabel.setText("Изображениe:");
 
-        addButton.setText("Добавить");
-        addButton.addActionListener(new java.awt.event.ActionListener() {
+        approveFileButton.setText("Добавить");
+        approveFileButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addButtonActionPerformed(evt);
+                approveFileButtonActionPerformed(evt);
             }
         });
 
         cancelButton.setText("Отмена");
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
 
         srcFieldLabel.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
         srcFieldLabel.setForeground(new java.awt.Color(102, 102, 102));
@@ -77,6 +91,14 @@ public class SlideUI extends javax.swing.JFrame {
         dummyfield.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
         dummyfield.setForeground(new java.awt.Color(102, 102, 102));
         dummyfield.setText("/sample.png");
+
+        isAnimation.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
+        isAnimation.setText("Анимация");
+        isAnimation.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                isAnimationActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -91,23 +113,26 @@ public class SlideUI extends javax.swing.JFrame {
                         .addComponent(slideFieldLabel))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(addButton)
+                        .addComponent(approveFileButton)
                         .addGap(11, 11, 11)
                         .addComponent(cancelButton))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(imgFieldLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(imgPathField, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(srcFieldLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(srcFolderField)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(chooseImageButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(dummyfield, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(imgFieldLabel)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(imgPathField, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(srcFieldLabel)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(srcFolderField)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(chooseImageButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(dummyfield, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(isAnimation))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -128,9 +153,11 @@ public class SlideUI extends javax.swing.JFrame {
                     .addComponent(srcFieldLabel)
                     .addComponent(srcFolderField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(dummyfield))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(isAnimation)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addButton)
+                    .addComponent(approveFileButton)
                     .addComponent(cancelButton))
                 .addContainerGap())
         );
@@ -142,25 +169,41 @@ public class SlideUI extends javax.swing.JFrame {
         JFileChooser fc = new JFileChooser();
         int result = fc.showOpenDialog(this);
         if(result == JFileChooser.APPROVE_OPTION){
-            File file = fc.getSelectedFile();
-            String filename = file.getName();
-            String ext;//TODO: определять расширение файла
-            slide = new Slide(srcFolderField.getText()+"/"+filename);
+            chosenImage = fc.getSelectedFile();
+            imgPathField.setText(chosenImage.getPath());
         }
-        
+        dummyfield.setText("/"+chosenImage.getName());
+        this.repaint();
     }//GEN-LAST:event_chooseImageButtonActionPerformed
 
-    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        
-    }//GEN-LAST:event_addButtonActionPerformed
+    private void approveFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_approveFileButtonActionPerformed
+            String filename = chosenImage.getName();
+            ImageIcon ico = new ImageIcon(chosenImage.getPath());
+            //расширение входит в имя
+            //TODO: создать фильтры FileChooser для того, чтобы нельзя было выбрать не-картинку           
+            slide = new Slide(srcFolderField.getText()+"/"+filename, ico);
+            pic.setIcon(ico);
+            slideshow.addSlide(slide);
+            this.dispose();
+    }//GEN-LAST:event_approveFileButtonActionPerformed
+
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_cancelButtonActionPerformed
+
+    private void isAnimationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isAnimationActionPerformed
+        JOptionPane.showMessageDialog(this, "Анимации появятся в следующей версии протокола!");       
+        isAnimation.setSelected(false);
+    }//GEN-LAST:event_isAnimationActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addButton;
+    private javax.swing.JButton approveFileButton;
     private javax.swing.JButton cancelButton;
     private javax.swing.JButton chooseImageButton;
     private javax.swing.JLabel dummyfield;
     private javax.swing.JLabel imgFieldLabel;
     private javax.swing.JTextField imgPathField;
+    private javax.swing.JCheckBox isAnimation;
     private javax.swing.JTextField slideFieldLabel;
     private javax.swing.JLabel slideNameFieldLabel;
     private javax.swing.JLabel srcFieldLabel;

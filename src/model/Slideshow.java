@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import model.XMLTranslatable;
 import java.util.HashMap;
 import org.w3c.dom.Document;
@@ -9,13 +10,15 @@ import org.w3c.dom.Document;
  */
 public class Slideshow implements XMLTranslatable{
     //коллекция слайдов
+    public int current_index = 1;
 
-    private HashMap<Integer, Slide> slides = new HashMap<>();
+    ArrayList<Slide> slides = new ArrayList<>();
     private int lifetime = 0;
     
     public void addSlide(Slide slide){
         lifetime += slide.lifetime;
-        slides.put(slide.lifetime, slide);
+        slides.add(slide);
+        slides.add(current_index, slide);
     }
 
     @Override
