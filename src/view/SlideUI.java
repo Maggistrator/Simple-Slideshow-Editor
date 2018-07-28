@@ -19,7 +19,6 @@ public class SlideUI extends javax.swing.JFrame {
     public SlideUI(MainGUI parent) {
         this.parent = parent;
         initComponents();
-        setAlwaysOnTop(true);
         setResizable(false);
         setLocationRelativeTo(null);
     }
@@ -30,7 +29,7 @@ public class SlideUI extends javax.swing.JFrame {
 
         imgPathField = new javax.swing.JTextField();
         chooseImageButton = new javax.swing.JButton();
-        slideFieldLabel = new javax.swing.JTextField();
+        nameField = new javax.swing.JTextField();
         slideNameFieldLabel = new javax.swing.JLabel();
         imgFieldLabel = new javax.swing.JLabel();
         approveFileButton = new javax.swing.JButton();
@@ -53,9 +52,9 @@ public class SlideUI extends javax.swing.JFrame {
             }
         });
 
-        slideFieldLabel.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
-        slideFieldLabel.setText("New Slide");
-        slideFieldLabel.setToolTipText("");
+        nameField.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
+        nameField.setText("New Slide");
+        nameField.setToolTipText("");
 
         slideNameFieldLabel.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
         slideNameFieldLabel.setForeground(new java.awt.Color(102, 102, 102));
@@ -122,7 +121,7 @@ public class SlideUI extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(slideNameFieldLabel)
                         .addGap(20, 20, 20)
-                        .addComponent(slideFieldLabel)))
+                        .addComponent(nameField)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addComponent(isAnimation)
@@ -137,7 +136,7 @@ public class SlideUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(slideFieldLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(slideNameFieldLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -177,13 +176,19 @@ public class SlideUI extends javax.swing.JFrame {
     }//GEN-LAST:event_chooseImageButtonActionPerformed
 
     private void approveFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_approveFileButtonActionPerformed
+            try{
             String filename = chosenImage.getName();
             ImageIcon ico = new ImageIcon(chosenImage.getPath());
             //расширение входит в имя
             //TODO: создать фильтры FileChooser для того, чтобы нельзя было выбрать не-картинку           
             slide = new Slide(srcFolderField.getText()+"/"+filename, ico);
+            slide.setName(nameField.getText());
             parent.processNewSlide(slide);
             this.dispose();
+            }
+            catch(NullPointerException npe){
+                JOptionPane.showMessageDialog(null, "Укажите изображение в формате .png .jpg или .jpeg");
+            }
     }//GEN-LAST:event_approveFileButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
@@ -203,7 +208,7 @@ public class SlideUI extends javax.swing.JFrame {
     private javax.swing.JLabel imgFieldLabel;
     private javax.swing.JTextField imgPathField;
     private javax.swing.JCheckBox isAnimation;
-    private javax.swing.JTextField slideFieldLabel;
+    private javax.swing.JTextField nameField;
     private javax.swing.JLabel slideNameFieldLabel;
     private javax.swing.JLabel srcFieldLabel;
     private javax.swing.JTextField srcFolderField;

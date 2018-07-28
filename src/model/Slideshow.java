@@ -8,20 +8,29 @@ import org.w3c.dom.Document;
  */
 public class Slideshow implements XMLTranslatable{
     //коллекция слайдов
+    public boolean isAuto = true;
+    public String name;
     public int current_index = 1;
 
+    public Slideshow(String name) {
+        this.name = name;
+    }
+    
     ArrayList<Slide> slides = new ArrayList<>();
-    private int lifetime = 0;
+    public int lifetime = 0;
     
     public void addSlide(Slide slide){
-        lifetime += slide.lifetime;
+        if(isAuto) lifetime += slide.lifetime;
         slides.add(slide);
-        slides.add(current_index, slide);
     }
 
     @Override
     public Document getXML() {
         throw new UnsupportedOperationException("Not supported yet."); 
+    }
+
+    public void setLifetime(int lifetime) {
+        this.lifetime = lifetime;
     }
 
 }

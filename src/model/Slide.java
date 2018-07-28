@@ -65,8 +65,21 @@ public class Slide implements XMLTranslatable{
             else lifetime = voiceover_lifetime;
         }
 
+    public void setName(String name) {
+        this.name = name;
+    }   
+        
+    public String getName() {
+        return name;
+    }   
+        
     @Override
     public Document getXML() {
         throw new UnsupportedOperationException("Not supported yet."); 
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

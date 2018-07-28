@@ -3,11 +3,10 @@ package view;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JTree;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeSelectionModel;
 import model.Slide;
 import model.Slideshow;
 
@@ -16,7 +15,7 @@ import model.Slideshow;
  */
 public class MainGUI extends javax.swing.JFrame {
     
-    private Slideshow slideshow = new Slideshow();
+    private Slideshow slideshow = new Slideshow("New Slideshow");
     private DefaultMutableTreeNode slideshowRepresent;
 
     public MainGUI() { 
@@ -29,6 +28,7 @@ public class MainGUI extends javax.swing.JFrame {
         slideshowRepresent = new DefaultMutableTreeNode(slideshow);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        SlideshowTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
     }
 
     @SuppressWarnings("unchecked")
@@ -148,6 +148,11 @@ public class MainGUI extends javax.swing.JFrame {
         nextSlideButton.setText("►");
 
         playButton.setText("Play");
+        playButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                playButtonActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -184,8 +189,6 @@ public class MainGUI extends javax.swing.JFrame {
 
         SlideshowTree.setFont(new java.awt.Font("Comic Sans MS", 0, 11)); // NOI18N
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Слайдшоу");
-        javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Слайд1");
-        treeNode1.add(treeNode2);
         SlideshowTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
         SlideshowTree.setAutoscrolls(true);
         SlideshowTree.setEditable(true);
@@ -279,23 +282,27 @@ public class MainGUI extends javax.swing.JFrame {
         SlideUI slide = new SlideUI(this);
         slide.setVisible(true);
         slide.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        SlideshowTree.updateUI();
     }//GEN-LAST:event_createSlideButtonActionPerformed
 
     private void createSlideshowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createSlideshowActionPerformed
-        
-        String name = "new slideshow";
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode(name);
-        DefaultTreeModel model = new DefaultTreeModel(root);
-        SlideshowTree = new JTree(model);
-        repaint();
+        CreateSlideshowUI createSlideshowUI = new CreateSlideshowUI(SlideshowTree, slideshow, slideshowRepresent);
+        createSlideshowUI.setVisible(true);
+        createSlideshowUI.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_createSlideshowActionPerformed
+
+    private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed
+
+    }//GEN-LAST:event_playButtonActionPerformed
 
     public void processNewSlide(Slide slide){
         DefaultMutableTreeNode slideRepresent = new DefaultMutableTreeNode(slide);
         picLabel.setIcon(slide.ico);
         slideshow.addSlide(slide);
-        slideshowRepresent.add(slideRepresent);
-        
+        DefaultMutableTreeNode root = (DefaultMutableTreeNode)SlideshowTree.getModel().getRoot();
+        root.add(slideRepresent);
+        SlideshowTree.updateUI();
+        repaint();    
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

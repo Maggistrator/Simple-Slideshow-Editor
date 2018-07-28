@@ -48,7 +48,7 @@
                   <Group type="102" attributes="0">
                       <Component id="slideNameFieldLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-                      <Component id="slideFieldLabel" max="32767" attributes="0"/>
+                      <Component id="nameField" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
@@ -68,7 +68,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="slideFieldLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="nameField" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="slideNameFieldLabel" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -122,7 +122,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chooseImageButtonActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="slideFieldLabel">
+    <Component class="javax.swing.JTextField" name="nameField">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Comic Sans MS" size="12" style="0"/>

@@ -1,25 +1,32 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package view;
 
+import javax.swing.JTree;
+import javax.swing.SwingUtilities;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import model.Slideshow;
+
 /**
- *
  * @author Сова
  */
 public class CreateSlideshowUI extends javax.swing.JFrame {
 
-    /**
-     * Creates new form CreateSlideshowUI
-     */
-    public CreateSlideshowUI() {
+    private JTree SlideshowTree;
+    Slideshow slideshow;
+    DefaultMutableTreeNode root;
+    
+    public CreateSlideshowUI(JTree SlideshowTree, Slideshow slideshow, DefaultMutableTreeNode root) {
         initComponents();
         
         setAlwaysOnTop(true);
         setResizable(false);
         setLocationRelativeTo(null);
+        setVisible(true);
+        
+        this.root = root;
+        this.slideshow = slideshow;
+        this.SlideshowTree = SlideshowTree;
+        lifetimeField.setEnabled(false);
     }
     
     @SuppressWarnings("unchecked")
@@ -45,7 +52,13 @@ public class CreateSlideshowUI extends javax.swing.JFrame {
         nameLabel.setText("Имя:");
 
         isAuto.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
+        isAuto.setSelected(true);
         isAuto.setText("Авто");
+        isAuto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                isAutoActionPerformed(evt);
+            }
+        });
 
         lifetimeLabel.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
         lifetimeLabel.setForeground(new java.awt.Color(102, 102, 102));
@@ -62,6 +75,11 @@ public class CreateSlideshowUI extends javax.swing.JFrame {
         });
 
         approveButton.setText("Создать");
+        approveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                approveButtonActionPerformed(evt);
+            }
+        });
 
         tipLabel.setFont(new java.awt.Font("Comic Sans MS", 0, 10)); // NOI18N
         tipLabel.setForeground(new java.awt.Color(102, 102, 102));
@@ -120,6 +138,27 @@ public class CreateSlideshowUI extends javax.swing.JFrame {
     private void canselButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_canselButtonActionPerformed
         this.dispose();
     }//GEN-LAST:event_canselButtonActionPerformed
+
+    private void isAutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isAutoActionPerformed
+        lifetimeField.setEnabled(!isAuto.isSelected());
+    }//GEN-LAST:event_isAutoActionPerformed
+
+    private void approveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_approveButtonActionPerformed
+        String name = nameField.getText();
+        root = new DefaultMutableTreeNode(name);
+        DefaultTreeModel model = (DefaultTreeModel)SlideshowTree.getModel();
+        model.setRoot(root);
+        slideshow = new Slideshow(name);
+        if (isAuto.isSelected()) {
+            slideshow.setLifetime(0);
+            slideshow.isAuto = true;
+        } else {
+            slideshow.setLifetime(Integer.parseInt(lifetimeField.getText()));
+            slideshow.isAuto = true;
+        }
+        SlideshowTree.updateUI();
+        canselButtonActionPerformed(null);
+    }//GEN-LAST:event_approveButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -104,8 +104,12 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Comic Sans MS" size="12" style="0"/>
         </Property>
+        <Property name="selected" type="boolean" value="true"/>
         <Property name="text" type="java.lang.String" value="&#x410;&#x432;&#x442;&#x43e;"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="isAutoActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lifetimeLabel">
       <Properties>
@@ -138,6 +142,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="&#x421;&#x43e;&#x437;&#x434;&#x430;&#x442;&#x44c;"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="approveButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="tipLabel">
       <Properties>
