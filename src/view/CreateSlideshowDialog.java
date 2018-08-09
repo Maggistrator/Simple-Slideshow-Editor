@@ -9,13 +9,13 @@ import model.Slideshow;
 /**
  * @author Сова
  */
-public class CreateSlideshowUI extends javax.swing.JFrame {
+public class CreateSlideshowDialog extends javax.swing.JFrame {
 
     private JTree SlideshowTree;
     Slideshow slideshow;
     DefaultMutableTreeNode root;
     
-    public CreateSlideshowUI(JTree SlideshowTree, Slideshow slideshow, DefaultMutableTreeNode root) {
+    public CreateSlideshowDialog(JTree SlideshowTree, Slideshow slideshow, DefaultMutableTreeNode root) {
         initComponents();
         
         setAlwaysOnTop(true);

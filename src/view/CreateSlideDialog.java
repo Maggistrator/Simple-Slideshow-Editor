@@ -5,18 +5,19 @@ import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.tree.DefaultMutableTreeNode;
 import model.Slide;
 
 /**
  * @author Сова
  */
-public class SlideUI extends javax.swing.JFrame {
+public class CreateSlideDialog extends javax.swing.JFrame {
 
     private Slide slide;
     File chosenImage = null;
     MainGUI parent;
     
-    public SlideUI(MainGUI parent) {
+    public CreateSlideDialog(MainGUI parent) {
         this.parent = parent;
         initComponents();
         setResizable(false);
@@ -183,6 +184,7 @@ public class SlideUI extends javax.swing.JFrame {
             //TODO: создать фильтры FileChooser для того, чтобы нельзя было выбрать не-картинку           
             slide = new Slide(srcFolderField.getText()+"/"+filename, ico);
             slide.setName(nameField.getText());
+            slide.add(new DefaultMutableTreeNode(filename));
             parent.processNewSlide(slide);
             this.dispose();
             }

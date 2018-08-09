@@ -2,6 +2,7 @@ package model;
 
 import java.util.HashMap;
 import javax.swing.ImageIcon;
+import javax.swing.tree.DefaultMutableTreeNode;
 import org.w3c.dom.Document;
 
 /** 
@@ -13,12 +14,12 @@ import org.w3c.dom.Document;
  * @author Сова
  * @see core.Slideshow
  * */
-public class Slide implements XMLTranslatable{
+public class Slide extends DefaultMutableTreeNode implements XMLTranslatable{
 	//ключевые свойства: время жизни слайда, имя и изображение
 	public int lifetime = 0;
         public String name = "New Slide";
-	public String image; 
-        public ImageIcon ico;
+	public String imageFilePath; 
+        public ImageIcon image;
         
         //служебные переменные, для вычисления длинны звуковой дорожки слайда, и субтитров
         private int text_lifetime = 0;
@@ -31,9 +32,10 @@ public class Slide implements XMLTranslatable{
 	private Slide(){} //закрываем конструктор по-умолчанию
         //TODO: нужен конструктор принимающий на вход Animation
         
-	public Slide(String image, ImageIcon ico) {
-            this.image = image;
-            this.ico = ico;
+	public Slide(String image, ImageIcon img) {
+            super("New Slide");
+            this.imageFilePath = image;
+            this.image = img;
 	}
 
     /**
@@ -67,6 +69,7 @@ public class Slide implements XMLTranslatable{
 
     public void setName(String name) {
         this.name = name;
+        super.setUserObject(name);
     }   
         
     public String getName() {
@@ -82,4 +85,6 @@ public class Slide implements XMLTranslatable{
     public String toString() {
         return name;
     }
+    
+    
 }

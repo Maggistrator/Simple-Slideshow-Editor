@@ -22,8 +22,13 @@ public class Slideshow implements XMLTranslatable{
     public void addSlide(Slide slide){
         if(isAuto) lifetime += slide.lifetime;
         slides.add(slide);
+        current_index++;
     }
 
+    public void removeSlide(int index){
+        slides.remove(index);
+    }
+    
     @Override
     public Document getXML() {
         throw new UnsupportedOperationException("Not supported yet."); 

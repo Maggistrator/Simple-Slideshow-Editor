@@ -1,11 +1,17 @@
 package view;
 
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 import model.Slide;
 import model.Slideshow;
@@ -28,7 +34,16 @@ public class MainGUI extends javax.swing.JFrame {
         slideshowRepresent = new DefaultMutableTreeNode(slideshow);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        createMusicButton.setIcon(new ImageIcon("sys/smallnote.png"));
+        createSoundButton.setIcon(new ImageIcon("sys/smallsound.png"));
+        createSubtitleButton.setIcon(new ImageIcon("sys/smalltext.png"));
         SlideshowTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+        SlideshowTree.addTreeSelectionListener(new TreeSelectionListener() {
+            @Override
+            public void valueChanged(TreeSelectionEvent e) {
+               // DefaultMutableTreeNode node = 
+            }
+        });
     }
 
     @SuppressWarnings("unchecked")
@@ -39,7 +54,7 @@ public class MainGUI extends javax.swing.JFrame {
         slidePanel = new javax.swing.JPanel();
         createSoundButton = new javax.swing.JButton();
         createSubtitleButton = new javax.swing.JButton();
-        createAnimationButton = new javax.swing.JButton();
+        createMusicButton = new javax.swing.JButton();
         generalToolPanel = new javax.swing.JPanel();
         createSlideButton = new javax.swing.JButton();
         saveButton = new javax.swing.JButton();
@@ -65,7 +80,7 @@ public class MainGUI extends javax.swing.JFrame {
 
         createSubtitleButton.setText("Текст");
 
-        createAnimationButton.setText("Анимация");
+        createMusicButton.setText("Музыка");
 
         javax.swing.GroupLayout slidePanelLayout = new javax.swing.GroupLayout(slidePanel);
         slidePanel.setLayout(slidePanelLayout);
@@ -76,13 +91,13 @@ public class MainGUI extends javax.swing.JFrame {
                 .addGroup(slidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(createSoundButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(createSubtitleButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(createAnimationButton, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE))
+                    .addComponent(createMusicButton, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE))
                 .addContainerGap())
         );
         slidePanelLayout.setVerticalGroup(
             slidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(slidePanelLayout.createSequentialGroup()
-                .addComponent(createAnimationButton)
+                .addComponent(createMusicButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(createSoundButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -156,7 +171,7 @@ public class MainGUI extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Слайд 1 из 1");
+        jLabel2.setText("Слайд 0 из 0");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -194,7 +209,6 @@ public class MainGUI extends javax.swing.JFrame {
         SlideshowTree.setEditable(true);
         SlideshowTree.setMinimumSize(new java.awt.Dimension(81, 32));
         SlideshowTree.setName("Слайдшоу"); // NOI18N
-        SlideshowTree.setSelectionModel(null);
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, generalToolPanel, org.jdesktop.beansbinding.ELProperty.create("${minimumSize}"), SlideshowTree, org.jdesktop.beansbinding.BeanProperty.create("maximumSize"));
         bindingGroup.addBinding(binding);
@@ -279,14 +293,14 @@ public class MainGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_previousSlideButtonActionPerformed
 
     private void createSlideButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createSlideButtonActionPerformed
-        SlideUI slide = new SlideUI(this);
-        slide.setVisible(true);
-        slide.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        CreateSlideDialog slideDialog = new CreateSlideDialog(this);
+        slideDialog.setVisible(true);
+        slideDialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         SlideshowTree.updateUI();
     }//GEN-LAST:event_createSlideButtonActionPerformed
 
     private void createSlideshowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createSlideshowActionPerformed
-        CreateSlideshowUI createSlideshowUI = new CreateSlideshowUI(SlideshowTree, slideshow, slideshowRepresent);
+        CreateSlideshowDialog createSlideshowUI = new CreateSlideshowDialog(SlideshowTree, slideshow, slideshowRepresent);
         createSlideshowUI.setVisible(true);
         createSlideshowUI.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_createSlideshowActionPerformed
@@ -296,18 +310,17 @@ public class MainGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_playButtonActionPerformed
 
     public void processNewSlide(Slide slide){
-        DefaultMutableTreeNode slideRepresent = new DefaultMutableTreeNode(slide);
-        picLabel.setIcon(slide.ico);
+        picLabel.setIcon(slide.image);
         slideshow.addSlide(slide);
         DefaultMutableTreeNode root = (DefaultMutableTreeNode)SlideshowTree.getModel().getRoot();
-        root.add(slideRepresent);
+        root.add(slide);
         SlideshowTree.updateUI();
         repaint();    
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTree SlideshowTree;
-    private javax.swing.JButton createAnimationButton;
+    private javax.swing.JButton createMusicButton;
     private javax.swing.JButton createSlideButton;
     private javax.swing.JButton createSlideshow;
     private javax.swing.JButton createSoundButton;
