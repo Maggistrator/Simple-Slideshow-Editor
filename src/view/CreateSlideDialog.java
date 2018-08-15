@@ -177,6 +177,7 @@ public class CreateSlideDialog extends javax.swing.JFrame {
     }//GEN-LAST:event_chooseImageButtonActionPerformed
 
     private void approveFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_approveFileButtonActionPerformed
+        if(parent.slideshow.indexof(nameField.getText())==-1){   
             try{
             String filename = chosenImage.getName();
             ImageIcon ico = new ImageIcon(chosenImage.getPath());
@@ -191,6 +192,10 @@ public class CreateSlideDialog extends javax.swing.JFrame {
             catch(NullPointerException npe){
                 JOptionPane.showMessageDialog(null, "Укажите изображение в формате .png .jpg или .jpeg");
             }
+        }else{
+            JOptionPane.showMessageDialog(null, "Это имя уже используется!");
+            System.err.println(">same name");
+        }
     }//GEN-LAST:event_approveFileButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed

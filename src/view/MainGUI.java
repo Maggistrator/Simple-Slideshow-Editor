@@ -1,8 +1,6 @@
 package view;
 
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -11,7 +9,6 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 import model.Slide;
 import model.Slideshow;
@@ -21,7 +18,7 @@ import model.Slideshow;
  */
 public class MainGUI extends javax.swing.JFrame {
     
-    private Slideshow slideshow = new Slideshow("New Slideshow");
+    public Slideshow slideshow = new Slideshow("New Slideshow");
     private DefaultMutableTreeNode slideshowRepresent;
 
     public MainGUI() { 
@@ -38,10 +35,31 @@ public class MainGUI extends javax.swing.JFrame {
         createSoundButton.setIcon(new ImageIcon("sys/smallsound.png"));
         createSubtitleButton.setIcon(new ImageIcon("sys/smalltext.png"));
         SlideshowTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+        
         SlideshowTree.addTreeSelectionListener(new TreeSelectionListener() {
-            @Override
-            public void valueChanged(TreeSelectionEvent e) {
-               // DefaultMutableTreeNode node = 
+        public void valueChanged(TreeSelectionEvent e) {
+            System.out.println("---обработка выделения---");
+            
+            DefaultMutableTreeNode node = (DefaultMutableTreeNode)
+            SlideshowTree.getLastSelectedPathComponent();
+
+            /* if nothing is selected */ 
+            if (node == null) return;
+
+            /* retrieve the node that was selected */ 
+            try{
+            Object obj = node.getUserObject();
+            String name = (String)obj;
+                System.out.println("это слайд "+obj);
+                Slide slide = slideshow.getSlide(name);
+                slideshow.current_index = slideshow.indexof(slide);
+                System.out.println("его индекс "+slideshow.indexof(slide));
+                System.out.println("а изображение "+slide.image);
+                picLabel.setIcon(slide.image);
+                repaint();
+            }catch(Exception exc){
+                System.out.println(">exc "+exc.getMessage());
+            }
             }
         });
     }
@@ -70,16 +88,21 @@ public class MainGUI extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
         picLabel = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Simple MIT Slideshow Editor");
 
         slidePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Слайд", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Comic Sans MS", 0, 14))); // NOI18N
 
+        createSoundButton.setFont(new java.awt.Font("Comic Sans MS", 0, 11)); // NOI18N
         createSoundButton.setText("Озвучка");
 
+        createSubtitleButton.setFont(new java.awt.Font("Comic Sans MS", 0, 11)); // NOI18N
         createSubtitleButton.setText("Текст");
 
+        createMusicButton.setFont(new java.awt.Font("Comic Sans MS", 0, 11)); // NOI18N
         createMusicButton.setText("Музыка");
 
         javax.swing.GroupLayout slidePanelLayout = new javax.swing.GroupLayout(slidePanel);
@@ -107,6 +130,7 @@ public class MainGUI extends javax.swing.JFrame {
 
         generalToolPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Основное", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Comic Sans MS", 0, 14))); // NOI18N
 
+        createSlideButton.setFont(new java.awt.Font("Comic Sans MS", 0, 11)); // NOI18N
         createSlideButton.setText("Новый слайд");
         createSlideButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -114,10 +138,13 @@ public class MainGUI extends javax.swing.JFrame {
             }
         });
 
+        saveButton.setFont(new java.awt.Font("Comic Sans MS", 0, 11)); // NOI18N
         saveButton.setText("Сохранить");
 
+        loadButton.setFont(new java.awt.Font("Comic Sans MS", 0, 11)); // NOI18N
         loadButton.setText("Загрузить");
 
+        createSlideshow.setFont(new java.awt.Font("Comic Sans MS", 0, 11)); // NOI18N
         createSlideshow.setText("Новое слайдшоу");
         createSlideshow.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -242,6 +269,13 @@ public class MainGUI extends javax.swing.JFrame {
 
         jScrollPane3.setViewportView(jPanel1);
 
+        jButton1.setFont(new java.awt.Font("Comic Sans MS", 1, 14)); // NOI18N
+        jButton1.setText("ЭКСПОРТ!");
+
+        jLabel1.setFont(new java.awt.Font("Comic Sans MS", 1, 10)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(204, 204, 204));
+        jLabel1.setText("то же, что и Сохранить");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -253,15 +287,18 @@ public class MainGUI extends javax.swing.JFrame {
                 .addComponent(jScrollPane3)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                             .addGap(4, 4, 4)
-                            .addComponent(generalToolPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(generalToolPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(slidePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(slidePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -270,17 +307,18 @@ public class MainGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(generalToolPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(generalToolPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(1, 1, 1)
                         .addComponent(slidePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane3)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(33, 33, 33))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1))
+                    .addComponent(jScrollPane3)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(33, 33, 33))
         );
 
         bindingGroup.bind();
@@ -326,6 +364,8 @@ public class MainGUI extends javax.swing.JFrame {
     private javax.swing.JButton createSoundButton;
     private javax.swing.JButton createSubtitleButton;
     private javax.swing.JPanel generalToolPanel;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel4;
