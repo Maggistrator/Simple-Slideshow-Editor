@@ -12,6 +12,9 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
 import model.Slide;
 import model.Slideshow;
+import model.Slide.Sound;
+import model.Slideshow.Music;
+
 
 /**
  * @author Сова
@@ -104,6 +107,11 @@ public class MainGUI extends javax.swing.JFrame {
 
         createMusicButton.setFont(new java.awt.Font("Comic Sans MS", 0, 11)); // NOI18N
         createMusicButton.setText("Музыка");
+        createMusicButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createMusicButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout slidePanelLayout = new javax.swing.GroupLayout(slidePanel);
         slidePanel.setLayout(slidePanelLayout);
@@ -347,11 +355,32 @@ public class MainGUI extends javax.swing.JFrame {
 
     }//GEN-LAST:event_playButtonActionPerformed
 
+    private void createMusicButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createMusicButtonActionPerformed
+        new AddMusicDialog(this);
+    }//GEN-LAST:event_createMusicButtonActionPerformed
+
+    public void processNewMusic(Music music){
+        slideshow.addMusic(music);
+        DefaultMutableTreeNode root = (DefaultMutableTreeNode)SlideshowTree.getModel().getRoot();
+        root.add(new DefaultMutableTreeNode(music));
+        SlideshowTree.updateUI();
+        repaint();    
+    }
+    
     public void processNewSlide(Slide slide){
         picLabel.setIcon(slide.image);
         slideshow.addSlide(slide);
         DefaultMutableTreeNode root = (DefaultMutableTreeNode)SlideshowTree.getModel().getRoot();
         root.add(slide);
+        SlideshowTree.updateUI();
+        repaint();    
+    }    
+    
+    public void processNewSound(Sound sound){
+        Slide slide = slideshow.getSlide(slideshow.current_index);
+        slide.addVoiceover(sound);        
+        DefaultMutableTreeNode node = (DefaultMutableTreeNode)SlideshowTree.getLastSelectedPathComponent();
+        node.add(new DefaultMutableTreeNode(sound));
         SlideshowTree.updateUI();
         repaint();    
     }

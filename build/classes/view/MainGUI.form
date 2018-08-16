@@ -140,6 +140,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="&#x41c;&#x443;&#x437;&#x44b;&#x43a;&#x430;"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="createMusicButtonActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
