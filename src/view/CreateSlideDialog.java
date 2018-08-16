@@ -4,6 +4,7 @@ package view;
 import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 import model.Slide;
@@ -22,6 +23,7 @@ public class CreateSlideDialog extends javax.swing.JFrame {
         initComponents();
         setResizable(false);
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     @SuppressWarnings("unchecked")
@@ -39,13 +41,15 @@ public class CreateSlideDialog extends javax.swing.JFrame {
         srcFolderField = new javax.swing.JTextField();
         dummyfield = new javax.swing.JLabel();
         isAnimation = new javax.swing.JCheckBox();
+        lifetimeLabel = new javax.swing.JLabel();
+        lifetimeField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        imgPathField.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
+        imgPathField.setFont(new java.awt.Font("Comic Sans MS", 0, 11)); // NOI18N
         imgPathField.setText("D:/data/pic.png");
 
-        chooseImageButton.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
+        chooseImageButton.setFont(new java.awt.Font("Comic Sans MS", 0, 11)); // NOI18N
         chooseImageButton.setLabel("Выбрать..");
         chooseImageButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -53,18 +57,19 @@ public class CreateSlideDialog extends javax.swing.JFrame {
             }
         });
 
-        nameField.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
+        nameField.setFont(new java.awt.Font("Comic Sans MS", 0, 11)); // NOI18N
         nameField.setText("New Slide");
         nameField.setToolTipText("");
 
-        slideNameFieldLabel.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
+        slideNameFieldLabel.setFont(new java.awt.Font("Comic Sans MS", 0, 11)); // NOI18N
         slideNameFieldLabel.setForeground(new java.awt.Color(102, 102, 102));
         slideNameFieldLabel.setText("Имя слайда: ");
 
-        imgFieldLabel.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
+        imgFieldLabel.setFont(new java.awt.Font("Comic Sans MS", 0, 11)); // NOI18N
         imgFieldLabel.setForeground(new java.awt.Color(102, 102, 102));
         imgFieldLabel.setText("Изображениe:");
 
+        approveFileButton.setFont(new java.awt.Font("Comic Sans MS", 0, 11)); // NOI18N
         approveFileButton.setText("Добавить");
         approveFileButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -72,6 +77,7 @@ public class CreateSlideDialog extends javax.swing.JFrame {
             }
         });
 
+        cancelButton.setFont(new java.awt.Font("Comic Sans MS", 0, 11)); // NOI18N
         cancelButton.setText("Отмена");
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -79,18 +85,18 @@ public class CreateSlideDialog extends javax.swing.JFrame {
             }
         });
 
-        srcFieldLabel.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
+        srcFieldLabel.setFont(new java.awt.Font("Comic Sans MS", 0, 11)); // NOI18N
         srcFieldLabel.setForeground(new java.awt.Color(102, 102, 102));
         srcFieldLabel.setText("Папка с ресурсами:");
 
-        srcFolderField.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
+        srcFolderField.setFont(new java.awt.Font("Comic Sans MS", 0, 11)); // NOI18N
         srcFolderField.setText("textures");
 
-        dummyfield.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
+        dummyfield.setFont(new java.awt.Font("Comic Sans MS", 0, 11)); // NOI18N
         dummyfield.setForeground(new java.awt.Color(102, 102, 102));
         dummyfield.setText("/sample.png");
 
-        isAnimation.setFont(new java.awt.Font("Comic Sans MS", 0, 12)); // NOI18N
+        isAnimation.setFont(new java.awt.Font("Comic Sans MS", 0, 11)); // NOI18N
         isAnimation.setText("Анимация");
         isAnimation.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -98,39 +104,53 @@ public class CreateSlideDialog extends javax.swing.JFrame {
             }
         });
 
+        lifetimeLabel.setFont(new java.awt.Font("Comic Sans MS", 0, 11)); // NOI18N
+        lifetimeLabel.setForeground(new java.awt.Color(102, 102, 102));
+        lifetimeLabel.setText("Время жизни:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(1, 1, 1)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(srcFieldLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(srcFolderField, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(imgFieldLabel)
-                                .addGap(18, 18, 18)
-                                .addComponent(imgPathField, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(isAnimation)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(approveFileButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(chooseImageButton)
-                            .addComponent(dummyfield, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cancelButton))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(slideNameFieldLabel)
-                        .addGap(20, 20, 20)
-                        .addComponent(nameField)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(srcFieldLabel)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(srcFolderField, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(imgFieldLabel)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(imgPathField, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(dummyfield, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(0, 0, Short.MAX_VALUE))
+                                            .addComponent(chooseImageButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(slideNameFieldLabel)
+                                        .addGap(20, 20, 20)
+                                        .addComponent(nameField))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lifetimeLabel)
+                                .addGap(18, 18, 18)
+                                .addComponent(lifetimeField, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(isAnimation)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(approveFileButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cancelButton)
-                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -151,9 +171,13 @@ public class CreateSlideDialog extends javax.swing.JFrame {
                     .addComponent(dummyfield))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lifetimeLabel)
+                            .addComponent(lifetimeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(isAnimation)
-                        .addContainerGap(28, Short.MAX_VALUE))
+                        .addGap(32, 32, 32))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -185,8 +209,16 @@ public class CreateSlideDialog extends javax.swing.JFrame {
             //TODO: создать фильтры FileChooser для того, чтобы нельзя было выбрать не-картинку           
             slide = new Slide(srcFolderField.getText()+"/"+filename, ico);
             slide.setName(nameField.getText());
+            //TODO: запилить валидаторы для всех полей 
+            try{
+                int lifetime = Integer.parseInt(lifetimeField.getText());
+                slide.setLifetime(lifetime);
+            }catch(NumberFormatException exc){
+                JOptionPane.showMessageDialog(this, "Введите корректное время жизни слайда!");
+            }
             slide.add(new DefaultMutableTreeNode(filename));
             parent.processNewSlide(slide);
+            //Motherf*ker HoI!!! TeMmiE GoiNg to thE ColLeGE sooN!
             this.dispose();
             }
             catch(NullPointerException npe){
@@ -215,6 +247,8 @@ public class CreateSlideDialog extends javax.swing.JFrame {
     private javax.swing.JLabel imgFieldLabel;
     private javax.swing.JTextField imgPathField;
     private javax.swing.JCheckBox isAnimation;
+    private javax.swing.JTextField lifetimeField;
+    private javax.swing.JLabel lifetimeLabel;
     private javax.swing.JTextField nameField;
     private javax.swing.JLabel slideNameFieldLabel;
     private javax.swing.JLabel srcFieldLabel;

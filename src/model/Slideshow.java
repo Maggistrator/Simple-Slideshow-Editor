@@ -17,6 +17,8 @@ public class Slideshow implements XMLTranslatable{
     }
     
     ArrayList<Slide> slides = new ArrayList<>();
+    ArrayList<Music> music = new ArrayList<>();
+
     public int lifetime = 0;
     
     public int indexof(Slide slide){
@@ -55,6 +57,27 @@ public class Slideshow implements XMLTranslatable{
         slides.remove(index);
     }
     
+    public void addMusic(Music soundtrack) {
+        music.add(soundtrack);
+    }
+    
+    public void addMusic(int starts, String path) {
+        music.add(new Music(starts, path));
+    }
+
+    public Music getMusic(int idx) {
+        return music.get(idx);
+    }
+    
+    public Music getMusic(String name) {
+        Music soundtrack = null;
+        int idx = music.indexOf(name);
+        if(idx != -1){
+            soundtrack = music.get(idx);
+        }
+        return soundtrack;
+    }
+    
     @Override
     public Document getXML() {
         throw new UnsupportedOperationException("Not supported yet."); 
@@ -64,4 +87,20 @@ public class Slideshow implements XMLTranslatable{
         this.lifetime = lifetime;
     }
 
+    public class Music{
+
+        int starts;
+        String path;
+        
+        public Music(int starts, String path) {
+            this.starts = starts;
+            this.path = path;
+        }
+        
+        @Override
+        public String toString() {
+            String name = path.substring(path.lastIndexOf("\\")+1 , path.length()-1);
+            return name;
+        }
+    }    
 }

@@ -1,16 +1,12 @@
 package model;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.tree.DefaultMutableTreeNode;
 import org.w3c.dom.Document;
 
 /** 
  * Slide является элементом для Slideshow 
- * <br>Время жизни слайда равно длине дорожки озвучки, либо субтитров, 
- * в зависимости от того, что длинее (Вычисляется автоматически)
- * <br> Дорожки субтитров и озвучки идут параллельно
- * <br>Элеметы дорожек идут относительно друг-друга по-очереди, с учётом смещения
  * @author Сова
  * @see core.Slideshow
  * */
@@ -21,13 +17,9 @@ public class Slide extends DefaultMutableTreeNode implements XMLTranslatable{
 	public String imageFilePath; 
         public ImageIcon image;
         
-        //служебные переменные, для вычисления длинны звуковой дорожки слайда, и субтитров
-        private int text_lifetime = 0;
-        private int voiceover_lifetime = 0;
-        
         //коллекции озвучки и субтитров
-	private HashMap<Integer, String> voiceover = new HashMap<>();
-	private HashMap<Integer, String> replicas = new HashMap<>();
+	private ArrayList<Sound> voiceover = new ArrayList<>();
+	private ArrayList<Subtitle> replicas = new ArrayList<>();
 
 	private Slide(){} //закрываем конструктор по-умолчанию
         //TODO: нужен конструктор принимающий на вход Animation
@@ -39,33 +31,30 @@ public class Slide extends DefaultMutableTreeNode implements XMLTranslatable{
 	}
 
     /**
-     * Позволяет добавить в дорожку озвучки новую реплику
-     * @param lifetime - время жизни дорожки в тиках
-     * @param sound - объект Sound, собственно - дорожка со звуком
-     * @param shift - сдвиг начала дорожки на заданную величину
+     * Позволяет добавить к слайду новую реплику или звук
+     * @param starts - время начала дорожки (в тик FPS), относительно начала слайда 
+     * @param sound - путь к дорожке с озвучкой
      */
-    public void addVoiceover(int lifetime, int shift, String sound) {
-        voiceover.put(lifetime, sound);
-        voiceover_lifetime += lifetime;
-        recalculateSlideLifetime();
+    public void addVoiceover(int starts, String sound) {
+        voiceover.add(new Sound(starts, sound));
     }
 
-	/**
-	 * Позволяет добавить на слайд реплику субтитров
-	 * @param text - многострочный текст, который следует отобразить
-	 * @param lifetime - время жизни отрисовки текста в тиках 
-         * @param shift - сдвиг начала дорожки на заданную величину
-	 * */
-	public void addText(int lifetime, int shift, String text) {
-		replicas.put(lifetime, text);
-                text_lifetime += lifetime;
-                recalculateSlideLifetime();
-	}
-        
-        private void recalculateSlideLifetime(){
-            if(text_lifetime > voiceover_lifetime) lifetime = text_lifetime;
-            else lifetime = voiceover_lifetime;
-        }
+    public void addVoiceover(Sound sound) {
+        voiceover.add(sound);
+    }
+    
+    /**
+     * Позволяет добавить на слайд реплику субтитров
+     * @param text - многострочный текст, который следует отобразить
+     * @param starts - время начала отрисовки текста (в тиках FPS)
+     * */
+    public void addText(int starts, String text) {
+        replicas.add(new Subtitle(starts, text));
+    }
+    
+    public void addText(Subtitle sub) {
+        replicas.add(sub);
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -75,6 +64,10 @@ public class Slide extends DefaultMutableTreeNode implements XMLTranslatable{
     public String getName() {
         return name;
     }   
+
+    public void setLifetime(int lifetime) {
+        this.lifetime = lifetime;
+    }
         
     @Override
     public Document getXML() {
@@ -86,5 +79,38 @@ public class Slide extends DefaultMutableTreeNode implements XMLTranslatable{
         return name;
     }
     
+    public class Sound{
+        
+        public int starts;
+        public String path;
+        
+        public Sound(int starts, String path) {
+            this.starts = starts;
+            this.path = path;
+        }
+
+        @Override
+        public String toString() {
+            //имя файла
+            String name = path.substring(path.lastIndexOf("\\") , path.length()-1);
+            return name;
+        }
+    }
     
+    public class Subtitle{
+
+        int starts;
+        String text;
+        
+        public Subtitle(int starts, String text) {
+            this.text = text;
+            this.starts = starts;
+        }
+
+        @Override
+        public String toString() {
+            return text.split(" ")[0]+"...";
+        }
+        
+    }
 }
